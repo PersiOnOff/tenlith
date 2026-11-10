@@ -24,15 +24,19 @@ public sealed class JourneyTests
             .ToDictionary(x => x.Key, x => x.Value.ToString());
     }
 
-    static async Task<MailMessageData> LatestMail(ApiFactory f, string email)
+    static async Task<MailMessageData> MailFor(ApiFactory f, string email, string actionPath)
     {
         using var s = f.Services.CreateScope();
         var jobs = await s
             .ServiceProvider.GetRequiredService<AppDb>()
-            .Jobs.OrderByDescending(x => x.AvailableAt)
+            .Jobs.Where(job => job.Kind == "mail")
             .ToListAsync();
         return jobs.Select(x => JsonSerializer.Deserialize<MailMessageData>(x.Payload)!)
-            .First(x => x.To == email);
+            .Single(x =>
+                x.To == email
+                && new Uri(x.Body[x.Body.IndexOf("http", StringComparison.Ordinal)..]).AbsolutePath
+                    == actionPath
+            );
     }
 
     static async Task<HttpClient> Register(ApiFactory f, string email)
@@ -48,7 +52,7 @@ public sealed class JourneyTests
             }
         );
         Assert.True(r.IsSuccessStatusCode, await r.Content.ReadAsStringAsync());
-        var q = Query((await LatestMail(f, email)).Body);
+        var q = Query((await MailFor(f, email, "/verify-email")).Body);
         Assert.True(
             (
                 await c.PostAsJsonAsync(
@@ -90,7 +94,21 @@ public sealed class JourneyTests
                 )
             ).IsSuccessStatusCode
         );
-        var token = Query((await LatestMail(f, "member@example.com")).Body)["token"];
+        // SMTP retry can move an old verification job ahead of the invitation.
+        // The test must select the account action, not the mutable delivery time.
+        using (var scope = f.Services.CreateScope())
+        {
+            await scope
+                .ServiceProvider.GetRequiredService<AppDb>()
+                .Jobs.Where(job =>
+                    job.Payload.Contains("verify-email")
+                    && job.Payload.Contains("member@example.com")
+                )
+                .ExecuteUpdateAsync(update =>
+                    update.SetProperty(job => job.AvailableAt, DateTime.UtcNow.AddHours(1))
+                );
+        }
+        var token = Query((await MailFor(f, "member@example.com", "/invite")).Body)["token"];
         Assert.Equal(
             HttpStatusCode.Forbidden,
             (await wrong.PostAsJsonAsync("/api/invitations/accept", new { token })).StatusCode
@@ -153,7 +171,7 @@ public sealed class JourneyTests
             $"/api/organizations/{id}/invitations",
             new { email = "next@example.com", role = "Admin" }
         );
-        var token = Query((await LatestMail(f, "next@example.com")).Body)["token"];
+        var token = Query((await MailFor(f, "next@example.com", "/invite")).Body)["token"];
         await next.PostAsJsonAsync("/api/invitations/accept", new { token });
         members = await owner.GetFromJsonAsync<JsonElement>($"/api/organizations/{id}/members");
         var target = members
@@ -194,7 +212,7 @@ public sealed class JourneyTests
                 )
             ).StatusCode
         );
-        var q = Query((await LatestMail(f, "reset@example.com")).Body);
+        var q = Query((await MailFor(f, "reset@example.com", "/reset-password")).Body);
         var request = new
         {
             email = "reset@example.com",
@@ -241,7 +259,7 @@ public sealed class JourneyTests
             $"/api/organizations/{aid}/invitations",
             new { email = "expired@example.com", role = "Member" }
         );
-        var token = Query((await LatestMail(f, "expired@example.com")).Body)["token"];
+        var token = Query((await MailFor(f, "expired@example.com", "/invite")).Body)["token"];
         using (var s = f.Services.CreateScope())
         {
             var db = s.ServiceProvider.GetRequiredService<AppDb>();

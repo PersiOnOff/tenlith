@@ -29,7 +29,8 @@ before doing so. Keep its generated credentials volume with the database volume.
 
 ## Native .NET and Vite
 
-Install .NET SDK 10 and Node.js 24. The root `global.json` selects .NET 10 and
+Install .NET SDK 10 and Node.js 24.15.0 or newer within the Node 24 LTS line.
+The test DOM dependency requires at least Node 24.15.0. The root `global.json` selects .NET 10 and
 allows compatible feature bands. Use your own PostgreSQL database and SMTP server
 or start the development infrastructure:
 
