@@ -1,0 +1,19 @@
+FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
+WORKDIR /source
+COPY global.json ./
+COPY src/Tenlith.Api/Tenlith.Api.csproj src/Tenlith.Api/
+COPY src/Tenlith.Api/packages.lock.json src/Tenlith.Api/
+RUN dotnet restore src/Tenlith.Api/Tenlith.Api.csproj --locked-mode
+COPY src/Tenlith.Api/ src/Tenlith.Api/
+RUN dotnet publish src/Tenlith.Api/Tenlith.Api.csproj -c Release --no-restore -o /app/publish /p:UseAppHost=false
+
+FROM mcr.microsoft.com/dotnet/aspnet:10.0
+USER root
+RUN apt-get update && apt-get install -y --no-install-recommends curl && rm -rf /var/lib/apt/lists/*
+WORKDIR /app
+RUN mkdir -p /app/keys && chown "$APP_UID:$APP_UID" /app/keys
+COPY --from=build /app/publish ./
+COPY --chmod=755 scripts/api-entrypoint.sh /entrypoint.sh
+USER $APP_UID
+EXPOSE 8080
+ENTRYPOINT ["/bin/sh", "/entrypoint.sh"]

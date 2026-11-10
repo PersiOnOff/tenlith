@@ -1,0 +1,104 @@
+/* Legible supporting copy at real desktop and phone sizes. */
+:root {
+  --faint: #87907d;
+}
+[data-theme="light"] {
+  --faint: #68745b;
+}
+.sidebar nav a {
+  font-size: 13px;
+}
+.workspace-picker select,
+.plan-note > span,
+.profile strong {
+  font-size: 12px;
+}
+.new-workspace,
+.plan-note p,
+.plan-note a,
+.sidebar-help,
+.profile > div > span {
+  font-size: 11px;
+}
+.breadcrumb,
+.page-heading p,
+.stat-top,
+.project-overview-row strong,
+.activity-list strong,
+.member-cell strong {
+  font-size: 12px;
+}
+.project-overview-row p,
+.panel-heading p,
+.activity-list p,
+.stat-bottom,
+.stat-plan-link,
+.workspace-callout p {
+  font-size: 11px;
+}
+.panel-heading h2 {
+  font-size: 14px;
+}
+.status,
+.panel-foot,
+.role-badge,
+.team-table td,
+.member-cell > div > span,
+.role-select,
+.invitation-list p,
+.role-guide p {
+  font-size: 11px;
+}
+.project-card > p,
+.pricing-card > p,
+.pricing-card li,
+.simulation-banner p,
+.billing-summary p,
+.account-detail p,
+.settings-form .field {
+  font-size: 12px;
+}
+.project-card-foot > span,
+.account-footer,
+.account-footer a,
+.workspace-facts,
+.danger-panel p {
+  font-size: 11px;
+}
+.page-heading .eyebrow,
+.nav-caption {
+  font-size: 9px;
+}
+.workspace-content .button {
+  font-size: 12px;
+}
+@media (max-width: 520px) {
+  .project-overview-row p {
+    max-width: 155px;
+  }
+  .project-overview-row .status {
+    font-size: 10px;
+  }
+  .page-heading p {
+    font-size: 12px;
+  }
+  .page-heading .eyebrow {
+    font-size: 8px;
+  }
+  .page-heading > .button {
+    font-size: 11px;
+  }
+  .stat-top,
+  .stat-bottom {
+    font-size: 11px;
+  }
+  .workspace-callout h2 {
+    font-size: 16px;
+  }
+  .team-table {
+    min-width: 550px;
+  }
+  .workspace-badge {
+    display: none;
+  }
+}

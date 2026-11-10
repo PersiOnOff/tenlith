@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="580" viewBox="0 0 1280 580" fill="none">
+  <title>Tenlith — Your SaaS. Solid from day one.</title>
+  <defs>
+    <pattern id="grid" width="48" height="48" patternUnits="userSpaceOnUse"><path d="M48 0H0V48" stroke="#262b26" stroke-width="1"/></pattern>
+    <linearGradient id="fade" x1="0" x2="1280" y1="290" y2="290" gradientUnits="userSpaceOnUse"><stop stop-color="#111511"/><stop offset="1" stop-color="#111511" stop-opacity="0"/></linearGradient>
+  </defs>
+  <rect width="1280" height="580" rx="24" fill="#111511"/>
+  <rect x="1" y="1" width="1278" height="578" rx="23" stroke="#30372e" stroke-width="2"/>
+  <rect x="640" y="2" width="638" height="576" fill="url(#grid)"/>
+  <rect x="640" y="2" width="638" height="576" fill="url(#fade)"/>
+  <rect x="64" y="62" width="44" height="44" rx="12" fill="#c8f56b"/>
+  <path d="M74 73h24v7h-9v16h-7V80h-8v-7Z" fill="#111511"/>
+  <text x="123" y="92" fill="#e7ebe3" font-family="Arial,Helvetica,sans-serif" font-size="26" font-weight="700" letter-spacing="-1">tenlith</text>
+  <text x="65" y="201" fill="#c8f56b" font-family="Arial,Helvetica,sans-serif" font-size="13" font-weight="700" letter-spacing="3">THE OPEN-SOURCE SaaS STARTER</text>
+  <text x="60" y="287" fill="#f2f4ed" font-family="Arial,Helvetica,sans-serif" font-size="76" font-weight="700" letter-spacing="-4">Your SaaS.</text>
+  <text x="60" y="371" fill="#f2f4ed" font-family="Arial,Helvetica,sans-serif" font-size="76" font-weight="700" letter-spacing="-4">Solid from day one.</text>
+  <text x="65" y="427" fill="#a4ad9e" font-family="Arial,Helvetica,sans-serif" font-size="20">The foundation is ready. Build what makes you different.</text>
+  <text x="65" y="518" fill="#d2d9cb" font-family="Arial,Helvetica,sans-serif" font-size="15" letter-spacing="1">.NET 10   /   REACT   /   TYPESCRIPT   /   POSTGRESQL</text>
+  <g transform="translate(1020 62)">
+    <rect width="193" height="35" rx="17" stroke="#46513d" fill="#1b2417"/>
+    <circle cx="20" cy="18" r="4" fill="#c8f56b"/>
+    <text x="34" y="23" fill="#c8f56b" font-family="Arial,Helvetica,sans-serif" font-size="12" font-weight="700" letter-spacing="1">FREE. OPEN SOURCE.</text>
+  </g>
+  <g transform="translate(1030 427)">
+    <rect x="0" y="0" width="46" height="46" rx="8" fill="#c8f56b" opacity=".18"/>
+    <rect x="54" y="0" width="46" height="46" rx="8" fill="#c8f56b"/>
+    <rect x="108" y="0" width="46" height="46" rx="8" fill="#c8f56b" opacity=".18"/>
+    <rect x="54" y="54" width="46" height="46" rx="8" fill="#c8f56b" opacity=".5"/>
+  </g>
+</svg>
